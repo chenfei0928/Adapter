@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.test.mainFragment.DataBindingRecFragment;
 import com.test.mainFragment.MultiRecyclerViewFragment;
 import com.test.mainFragment.RecyclerViewFragment;
 
@@ -62,25 +63,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return new RecyclerViewFragment();
-            } else {
-                return new MultiRecyclerViewFragment();
+            switch (position) {
+                case 0:
+                    return new RecyclerViewFragment();
+                case 1:
+                    return new MultiRecyclerViewFragment();
+                case 2:
+                    return new DataBindingRecFragment();
             }
+            return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return "单View类型";
-            } else {
-                return "多View类型";
+            switch (position) {
+                case 0:
+                    return "单View类型";
+                case 1:
+                    return "多View类型";
+                case 2:
+                    return "DataBinding";
             }
+            return null;
         }
     }
 }

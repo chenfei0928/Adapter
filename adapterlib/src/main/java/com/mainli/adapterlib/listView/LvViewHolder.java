@@ -4,24 +4,24 @@ import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.mainli.adapterlib.ItemViewCounter;
 import com.mainli.adapterlib.ViewHolderHelper;
 
 /**
  * ListView GridView 通用ViewHolder
  */
-public class ViewHolder {
-    public static final int viewSizeUndefined = -1;
+public class LvViewHolder implements ItemViewCounter {
     private int itemViewType;
     private View itemView;
     private SparseArray<View> viewList;
 
-    /* package */ ViewHolder(View itemView, int viewSize, int itemViewType) {
+    /* package */ LvViewHolder(View itemView, int viewSize, int itemViewType) {
         this.itemView = itemView;
-        this.viewList = new SparseArray<View>(viewSize == viewSizeUndefined ? 10 : viewSize);
+        this.viewList = new SparseArray<>(viewSize == viewSizeUndefined ? 10 : viewSize);
         this.itemViewType = itemViewType;
     }
 
-    /* package */ int countView() {
+    public int countView() {
         return viewList.size();
     }
 

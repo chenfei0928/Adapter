@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.mainli.adapterlib.recyclerView.RViewHolder;
+import com.mainli.adapterlib.recyclerView.RecViewHolder;
 import com.mainli.adapterlib.recyclerView.TitleGroupRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -46,14 +46,14 @@ public class TestActivity extends AppCompatActivity {
 //        mRecycleView.setAdapter(new RecyclerAdapter<String>(list1, R.layout.item) {
 //
 //            @Override
-//            public void onBindObject2View(RViewHolder vh, String s, int position) {
+//            public void onBindObject2View(RecViewHolder vh, String s, int position) {
 //                vh.setText(R.id.text, s);
 //            }
 //        });
         //--------------3.带title的适配器--------------------------------------------------
         mRecycleView.setAdapter(new TitleGroupRecyclerAdapter<String, String>(map) {
             @Override
-            public void onBindObject2View(RViewHolder vh, String s, String s2, int position) {
+            public void onBindObject2View(RecViewHolder vh, String s, String s2, int position) {
                 if (vh.getItemViewType() == ITEM_LAYOUT_TYOE) {
                     vh.setText(R.id.text, s2);
                 } else {

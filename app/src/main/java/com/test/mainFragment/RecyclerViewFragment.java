@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mainli.adapterlib.recyclerView.RViewHolder;
+import com.mainli.adapterlib.recyclerView.RecViewHolder;
+import com.mainli.adapterlib.recyclerView.RecViewHolderFactory;
 import com.mainli.adapterlib.recyclerView.RecyclerAdapter;
 import com.test.mainli.R;
 
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Admin on 2016/4/15.
+ * Created by MrFeng on 2016/4/15.
  */
 public class RecyclerViewFragment extends Fragment {
     @Nullable
@@ -32,9 +33,10 @@ public class RecyclerViewFragment extends Fragment {
         List<String> list = Arrays.asList("1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2",//
                 "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3",//
                 "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3");
-        RecyclerAdapter<String> adapter = new RecyclerAdapter<String>(list, R.layout.item1) {
+        RecyclerAdapter<String, RecViewHolder> adapter = new RecyclerAdapter<String, RecViewHolder>(
+                list, new RecViewHolderFactory(), R.layout.item1) {
             @Override
-            public void onBindObject2View(RViewHolder vh, String s, int position) {
+            public void onBindObject2View(RecViewHolder vh, String s, int position) {
                 vh.get(R.id.text, TextView.class).setText(s);
             }
         };

@@ -6,19 +6,19 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mainli.adapterlib.ItemViewCounter;
 import com.mainli.adapterlib.ViewHolderHelper;
 
 /**
+ * RecyclerView - LvViewHolder
  * Created by Mainli on 2016/4/13.
- * RecyclerView - ViewHolder
  */
-public class RViewHolder extends RecyclerView.ViewHolder {
-    public static final int viewSizeUndefined = -1;
+public class RecViewHolder extends RecyclerView.ViewHolder implements ItemViewCounter {
     private SparseArray<View> mViews;
 
-    /* package */ RViewHolder(View itemView, int viewSize) {
+    /* package */ RecViewHolder(View itemView, int viewSize) {
         super(itemView);
-        mViews = new SparseArray<View>(viewSize > 0 ? viewSize : 10);
+        mViews = new SparseArray<>(viewSize > 0 ? viewSize : 10);
     }
 
     public <T extends View> T getView(@IdRes int id) {
@@ -29,7 +29,7 @@ public class RViewHolder extends RecyclerView.ViewHolder {
         return ViewHolderHelper.get(itemView, mViews, id, viewType);
     }
 
-    /* package */ int countView() {
+    public int countView() {
         return mViews.size();
     }
 
@@ -46,5 +46,4 @@ public class RViewHolder extends RecyclerView.ViewHolder {
     public void setOnLongClickListener(@IdRes int id, View.OnLongClickListener linstener) {
         getView(id).setOnLongClickListener(linstener);
     }
-
 }

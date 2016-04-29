@@ -7,21 +7,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.mainli.adapterlib.recyclerView.RecViewHolder;
-import com.mainli.adapterlib.recyclerView.RecViewHolderFactory;
+import com.mainli.adapterlib.recyclerView.RecDataBindingViewHolder;
+import com.mainli.adapterlib.recyclerView.RecDataBindingViewHolderFactory;
 import com.mainli.adapterlib.recyclerView.RecyclerAdapter;
+import com.test.mainli.BR;
 import com.test.mainli.R;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * 多 ViewType 的 RecyclerView 示例
- * Created by MrFeng on 2016/4/15.
+ * 适用于 DataBinding 的 RecyclerView 示例
+ * Created by MrFeng on 2016/4/29.
  */
-public class MultiRecyclerViewFragment extends Fragment {
+public class DataBindingRecFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,16 +34,11 @@ public class MultiRecyclerViewFragment extends Fragment {
         List<String> list = Arrays.asList("1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2",//
                 "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3",//
                 "1", "2", "3", "1", "2", "3", "1", "2", "3", "1", "2", "3");
-        RecyclerAdapter<String, RecViewHolder> adapter = new RecyclerAdapter<String, RecViewHolder>(
-                list, new RecViewHolderFactory(), new int[]{R.layout.item1, R.layout.item}) {
+        RecyclerAdapter<String, RecDataBindingViewHolder> adapter = new RecyclerAdapter<String, RecDataBindingViewHolder>(
+                list, new RecDataBindingViewHolderFactory(), R.layout.databinding_item) {
             @Override
-            public int getItemViewType(String s, int position) {
-                return position % 2;
-            }
-
-            @Override
-            public void onBindObject2View(RecViewHolder vh, String s, int position) {
-                vh.get(R.id.text, TextView.class).setText(s);
+            public void onBindObject2View(RecDataBindingViewHolder vh, String s, int position) {
+                vh.getDataBinding().setVariable(BR.str, s);
             }
         };
         ((RecyclerView) view).setAdapter(adapter);

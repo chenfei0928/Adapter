@@ -9,7 +9,7 @@ import android.view.View;
 /**
  * RecyclerView的点击监听器
  * http://stackoverflow.com/questions/24471109/recyclerview-onclick
- * Created by Admin on 2016/4/7.
+ * Created by MrFeng on 2016/4/7.
  */
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mClick;

@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 适用于 Title、Group 的RecyclerView适配器？
  * Created by Mainli on 2016/4/13.
  */
-public abstract class TitleGroupRecyclerAdapter<G, T> extends RecyclerView.Adapter<RViewHolder> {
+public abstract class TitleGroupRecyclerAdapter<G, T> extends RecyclerView.Adapter<RecViewHolder> {
     protected Map<G, List<T>> mData;
     private SparseArray<G> mGroupIndexs;
     private SparseArray<T> mChildIndexs;
@@ -34,12 +35,12 @@ public abstract class TitleGroupRecyclerAdapter<G, T> extends RecyclerView.Adapt
     }
 
     @Override
-    public RViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RViewHolder(LayoutInflater.from(parent.getContext()).inflate(getLayoutResources(viewType), parent, false), viewType);
+    public RecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new RecViewHolder(LayoutInflater.from(parent.getContext()).inflate(getLayoutResources(viewType), parent, false), viewType);
     }
 
     @Override
-    public void onBindViewHolder(RViewHolder holder, int position) {
+    public void onBindViewHolder(RecViewHolder holder, int position) {
         onBindObject2View(holder, getGroupItem(position), getChildItem(position), position);
     }
 
@@ -98,7 +99,7 @@ public abstract class TitleGroupRecyclerAdapter<G, T> extends RecyclerView.Adapt
         return getChildItem(position) == null ? TITLE_LAYOUT_TYOE : ITEM_LAYOUT_TYOE;
     }
 
-    public abstract void onBindObject2View(RViewHolder vh, G g, T t, int position);
+    public abstract void onBindObject2View(RecViewHolder vh, G g, T t, int position);
 
     public abstract int getLayoutResources(int viewType);
 }

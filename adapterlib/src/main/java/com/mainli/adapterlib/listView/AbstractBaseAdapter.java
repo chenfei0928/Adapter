@@ -6,8 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.mainli.adapterlib.ViewHolderCreator;
-import com.mainli.adapterlib.recyclerView.RViewHolder;
+import com.mainli.adapterlib.ItemViewCounter;
 
 import java.util.List;
 
@@ -15,32 +14,40 @@ import java.util.List;
  * 基类adapter
  */
 @SuppressWarnings("unused")
-public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends BaseAdapter {
+public abstract class AbstractBaseAdapter<T, VH> extends BaseAdapter {
     @LayoutRes
     private final int[] mLayoutIds;
     private final int[] mViewSizes;
     protected List<T> mListData;
-    private ViewHolderCreator<VH> mCreator;
+    private final ListViewHolderFactory<VH> mViewHolderFactory;
 
-//    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int layoutId) {
-//        this(mListData, ListViewHolderCreator.newInstance(), new int[]{layoutId});
-//    }
+    /**
+     * 如使用此构造器，泛型第二个参数必须为{@link LvViewHolder}
+     */
+    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int layoutId) {
+        //noinspection unchecked
+        this(mListData, (ListViewHolderFactory<VH>) new LvViewHolderFactory(), new int[]{layoutId});
+    }
 
-//    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int[] layoutIds) {
-//        this(mListData, ListViewHolderCreator.newInstance(), layoutIds);
-//    }
+    /**
+     * 如使用此构造器，泛型第二个参数必须为{@link LvViewHolder}
+     */
+    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int[] layoutIds) {
+        //noinspection unchecked
+        this(mListData, (ListViewHolderFactory<VH>) new LvViewHolderFactory(), layoutIds);
+    }
 
-    public AbstractBaseAdapter(List<T> mListData, ViewHolderCreator<VH> creator, @LayoutRes int layoutId) {
+    public AbstractBaseAdapter(List<T> mListData, ListViewHolderFactory<VH> creator, @LayoutRes int layoutId) {
         this(mListData, creator, new int[]{layoutId});
     }
 
-    public AbstractBaseAdapter(List<T> mListData, ViewHolderCreator<VH> creator, @LayoutRes int[] layoutIds) {
+    public AbstractBaseAdapter(List<T> mListData, ListViewHolderFactory<VH> creator, @LayoutRes int[] layoutIds) {
         this.mListData = mListData;
         this.mLayoutIds = layoutIds;
-        this.mCreator = creator;
+        this.mViewHolderFactory = creator;
         this.mViewSizes = new int[mLayoutIds.length];
         for (int i = 0; i < this.mViewSizes.length; i++) {
-            mViewSizes[i] = ViewHolder.viewSizeUndefined;
+            mViewSizes[i] = ItemViewCounter.viewSizeUndefined;
         }
     }
 
@@ -117,7 +124,7 @@ public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends Base
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext())
                     .inflate(mLayoutIds[viewType], parent, false);
-            vh = mCreator.createHolder(convertView, mViewSizes[viewType], viewType);
+            vh = mViewHolderFactory.createHolder(convertView, mViewSizes[viewType], viewType);
             convertView.setTag(vh);
         } else {
             //noinspection unchecked
@@ -125,8 +132,8 @@ public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends Base
         }
         getItemView(position, vh, getItem(position));
         // 如果没有缓存到其ViewSize，将其缓存
-        if (mViewSizes[viewType] == ViewHolder.viewSizeUndefined) {
-            mViewSizes[viewType] = vh.countView();
+        if (vh instanceof ItemViewCounter && mViewSizes[viewType] == ItemViewCounter.viewSizeUndefined) {
+            mViewSizes[viewType] = ((ItemViewCounter) vh).countView();
         }
         return convertView;
     }

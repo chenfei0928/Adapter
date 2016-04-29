@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * View设置工具类
- * Created by Admin on 2015/8/19.
+ * Created by MrFeng on 2015/8/19.
  */
 @SuppressWarnings("unused")
 public class ViewUtil {
@@ -125,8 +125,8 @@ public class ViewUtil {
     /**
      * 通过ListView的Tag或反射获取其FooterView
      *
-     * @param lv
-     * @return
+     * @param lv 添加过加载更多的 ListView
+     * @return 加载更多的itemView
      */
     private static View getLoadMoreFooter(ListView lv) {
         View v = getLoadMoreFooterByTag(lv);

@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 /**
  * 简单的RecyclerView上拉加载监听器，由{@link OnRcvScrollListener} 简单修改而来
- * Created by Admin on 2016/1/19.
+ * Created by MrFeng on 2016/1/19.
  */
 public class RecyclerViewScrollLoadMoreListener extends RecyclerView.OnScrollListener {
     private final String TAG = "RecyclerViewScrollLoadMoreLis";
