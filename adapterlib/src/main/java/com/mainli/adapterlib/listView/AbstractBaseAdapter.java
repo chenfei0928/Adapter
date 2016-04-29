@@ -40,7 +40,7 @@ public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends Base
         this.mCreator = creator;
         this.mViewSizes = new int[mLayoutIds.length];
         for (int i = 0; i < this.mViewSizes.length; i++) {
-            mViewSizes[i] = RViewHolder.viewSizeUndefined;
+            mViewSizes[i] = ViewHolder.viewSizeUndefined;
         }
     }
 
@@ -136,9 +136,7 @@ public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends Base
      * 否则必须重写，判断并返回LayoutId在数组中的下标
      */
     public int getItemViewType(T t, int position) {
-        throw new UnsupportedOperationException("If {mLayoutIds.length > 1}" +
-                " you must override getItemViewType(t, position) method" +
-                " to return view type, in the layout ids array position.");
+        throw new UnsupportedOperationException("If {mLayoutIds.length > 1} you must override getItemViewType(t, position) method to return view type, in the layout ids array position.");
     }
 
     public abstract void getItemView(int position, VH holder, T t);
