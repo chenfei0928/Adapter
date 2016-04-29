@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.test.mainli"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 8
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName

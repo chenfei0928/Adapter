@@ -16,9 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     testCompile 'junit:junit:4.12'
     compile "com.android.support:recyclerview-v7:${rootProject.ext.supportLibsVersion}"
+    provided 'com.android.databinding:baseLibrary:1.0'
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.mainli.adapterlib.ViewHolderCreator;
 import com.mainli.adapterlib.recyclerView.RViewHolder;
 
 import java.util.List;
@@ -13,19 +14,30 @@ import java.util.List;
 /**
  * 基类adapter
  */
-public abstract class AbstractBaseAdapter<T> extends BaseAdapter {
+@SuppressWarnings("unused")
+public abstract class AbstractBaseAdapter<T, VH extends ViewHolder> extends BaseAdapter {
     @LayoutRes
     private final int[] mLayoutIds;
     private final int[] mViewSizes;
     protected List<T> mListData;
+    private ViewHolderCreator<VH> mCreator;
 
-    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int layoutId) {
-        this(mListData, new int[]{layoutId});
+//    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int layoutId) {
+//        this(mListData, ListViewHolderCreator.newInstance(), new int[]{layoutId});
+//    }
+
+//    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int[] layoutIds) {
+//        this(mListData, ListViewHolderCreator.newInstance(), layoutIds);
+//    }
+
+    public AbstractBaseAdapter(List<T> mListData, ViewHolderCreator<VH> creator, @LayoutRes int layoutId) {
+        this(mListData, creator, new int[]{layoutId});
     }
 
-    public AbstractBaseAdapter(List<T> mListData, @LayoutRes int[] layoutIds) {
+    public AbstractBaseAdapter(List<T> mListData, ViewHolderCreator<VH> creator, @LayoutRes int[] layoutIds) {
         this.mListData = mListData;
         this.mLayoutIds = layoutIds;
+        this.mCreator = creator;
         this.mViewSizes = new int[mLayoutIds.length];
         for (int i = 0; i < this.mViewSizes.length; i++) {
             mViewSizes[i] = RViewHolder.viewSizeUndefined;
@@ -101,14 +113,15 @@ public abstract class AbstractBaseAdapter<T> extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         int viewType = getItemViewType(position);
-        ViewHolder vh;
+        VH vh;
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext())
                     .inflate(mLayoutIds[viewType], parent, false);
-            vh = new ViewHolder(convertView, mViewSizes[viewType], viewType);
+            vh = mCreator.createHolder(convertView, mViewSizes[viewType], viewType);
             convertView.setTag(vh);
         } else {
-            vh = (ViewHolder) convertView.getTag();
+            //noinspection unchecked
+            vh = (VH) convertView.getTag();
         }
         getItemView(position, vh, getItem(position));
         // 如果没有缓存到其ViewSize，将其缓存
@@ -128,5 +141,5 @@ public abstract class AbstractBaseAdapter<T> extends BaseAdapter {
                 " to return view type, in the layout ids array position.");
     }
 
-    public abstract void getItemView(int position, ViewHolder holder, T t);
+    public abstract void getItemView(int position, VH holder, T t);
 }

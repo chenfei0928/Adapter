@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mainli.adapterlib.listView.AbstractBaseAdapter;
+import com.mainli.adapterlib.listView.ListViewHolderCreator;
 import com.mainli.adapterlib.listView.ViewHolder;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ public class ListViewActivity extends AppCompatActivity {
         for (int i = 0; i < 12; i++) {
             list.add("test:" + i);
         }
-        mListView.setAdapter(new AbstractBaseAdapter<String>(list, R.layout.item) {
+        mListView.setAdapter(new AbstractBaseAdapter<String, ViewHolder>(list,
+                ListViewHolderCreator.newInstance(), new int[]{R.layout.item}) {
             @Override
             public void getItemView(int position, ViewHolder holder, String s) {
                 TextView tv = holder.get(R.id.text);
