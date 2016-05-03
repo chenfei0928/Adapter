@@ -29,6 +29,7 @@ public class RecViewHolder extends RecyclerView.ViewHolder implements ItemViewCo
         return ViewHolderHelper.get(itemView, mViews, id, viewType);
     }
 
+    @Override
     public int countView() {
         return mViews.size();
     }

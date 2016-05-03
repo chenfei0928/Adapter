@@ -29,7 +29,7 @@ import java.util.Set;
  */
 @SuppressWarnings("unused")
 public class ViewUtil {
-    private static final String t = "KW_ViewUtil";
+    private static final String TAG = "ViewUtil";
 
     @IntDef({STATUS_LIST_IDLE, STATUS_LIST_LOADMORE, STATUS_LIST_REFRESH, STATUS_LIST_DONT_LOADMORE})
     @Retention(RetentionPolicy.SOURCE)
@@ -51,7 +51,7 @@ public class ViewUtil {
     public static void removeFooterView(ListView lv, boolean addLoadNoMore) {
         View v = getLoadMoreFooter(lv);
         if (v != null) {
-            Log.d(t, "为 " + lv.getClass().getName() + " " + getViewIdResString(lv) + " 移除底部 FooterView 和滑动监听器");
+            Log.d(TAG, "为 " + lv.getClass().getName() + " " + getViewIdResString(lv) + " 移除底部 FooterView 和滑动监听器");
             if (!addLoadNoMore) {
                 lv.removeFooterView(v);
                 // 如果不需要添加无更多的提示，则为ListView移除FooterView之后移除其Tag
@@ -67,7 +67,7 @@ public class ViewUtil {
      * 为ListView添加FootView方式添加加载中提示
      * 如果ListView已经有FooterView则可能是已经执行过该方法，添加过FooterView
      * 即只为没有FooterView的ListView添加滑动加载
-     * <p/>
+     * <p>
      * 将上拉刷新的监听器放在footerView的Tag中
      * 并将footerView放在ListView中以备移除监听器使用
      *
@@ -81,7 +81,7 @@ public class ViewUtil {
         View footer = getLoadMoreFooter(lv);
         OnScrollLisSet onScrollLisSet = genListViewScrollListeners(lv);
         if (onScrollLisSet.containsScrollLoadMore()) {
-            Log.w(t, "ListView " + getViewIdResString(lv) + " 中已经有上拉加载了 " + footer);
+            Log.w(TAG, "ListView " + getViewIdResString(lv) + " 中已经有上拉加载了 " + footer);
             return footer;
         }
 
@@ -103,7 +103,7 @@ public class ViewUtil {
         }
 
         // 添加FooterView和监听器
-        lv.addFooterView(footer, t, false);
+        lv.addFooterView(footer, TAG, false);
         lv.setTag(footer);
         onScrollLisSet.addOnScrollListener(listener);
         return footer;
@@ -153,7 +153,7 @@ public class ViewUtil {
             if (o != null && o instanceof List) {
                 @SuppressWarnings("unchecked") List<ListView.FixedViewInfo> list = (List<ListView.FixedViewInfo>) o;
                 for (ListView.FixedViewInfo info : list)
-                    if (t.equals(info.data))
+                    if (TAG.equals(info.data))
                         return info.view;
             }
         } catch (NoSuchFieldException e) {
@@ -179,7 +179,7 @@ public class ViewUtil {
             mOnScrollListener = AbsListView.class.getDeclaredField("mOnScrollListener");
             mOnScrollListener.setAccessible(true);
         } catch (NoSuchFieldException e) {
-            Log.e(t, "NoSuchFieldException", e);
+            Log.e(TAG, "NoSuchFieldException", e);
         }
         // 先从ListView的Tag中获取，用于由本类添加的上拉加载使用
         if (lv.getTag() instanceof OnScrollLisSet)
@@ -199,9 +199,9 @@ public class ViewUtil {
                         lisSet.addOnScrollListener(listener);
                 }
             } catch (IllegalAccessException e) {
-                Log.e(t, "IllegalAccessException", e);
+                Log.e(TAG, "IllegalAccessException", e);
             } catch (NullPointerException e) {
-                Log.e(t, "NullPointerException", e);
+                Log.e(TAG, "NullPointerException", e);
             }
         }
         if (lisSet == null)
@@ -215,11 +215,11 @@ public class ViewUtil {
                 invokeOnItemScrollListener.setAccessible(true);
                 invokeOnItemScrollListener.invoke(lv);
             } catch (IllegalAccessException e) {
-                Log.e(t, "NullPointerException", e);
+                Log.e(TAG, "NullPointerException", e);
             } catch (NoSuchMethodException e) {
-                Log.e(t, "NoSuchMethodException", e);
+                Log.e(TAG, "NoSuchMethodException", e);
             } catch (InvocationTargetException e) {
-                Log.e(t, "InvocationTargetException", e);
+                Log.e(TAG, "InvocationTargetException", e);
             }
         }
         return lisSet;
@@ -301,7 +301,7 @@ public class ViewUtil {
             boolean touchIsIdle = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
             boolean canRefresh = lis.getListViewStatus(lv) == STATUS_LIST_IDLE;
             if (touchIsIdle && lis != null && canRefresh) {
-                Log.i(t, view.getClass().getName() + " 上拉加载：" + getViewIdResString(view));
+                Log.i(TAG, view.getClass().getName() + " 上拉加载：" + getViewIdResString(view));
                 lis.onLoadMore(lv);
             }
         }
@@ -349,10 +349,10 @@ public class ViewUtil {
                 DisplayMetrics dm = activity.getResources().getDisplayMetrics();
                 point.set(dm.widthPixels, dm.heightPixels);
             }
-            Log.i(t, "主屏幕长 " + point.x + " 高 " + point.y);
+            Log.i(TAG, "主屏幕长 " + point.x + " 高 " + point.y);
             orient = point.x > point.y ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         }
-        Log.i(t, orient == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ? "横屏 true" : "竖屏或正方形 false");
+        Log.i(TAG, orient == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ? "横屏 true" : "竖屏或正方形 false");
         return orient == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
     }
 

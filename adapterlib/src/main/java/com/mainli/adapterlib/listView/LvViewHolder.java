@@ -21,6 +21,7 @@ public class LvViewHolder implements ItemViewCounter {
         this.itemViewType = itemViewType;
     }
 
+    @Override
     public int countView() {
         return viewList.size();
     }
